@@ -79,7 +79,7 @@
 
   /* ページの余白設定 */
   @page {
-    margin: 0;
+    margin: 10px;
     size: A4;
   }
 
