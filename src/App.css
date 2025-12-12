@@ -1,0 +1,112 @@
+/* ベースのスタイル*/
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #1a1b1b;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.control-panel {
+  background-color: #1a1b1b;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  border: 1px solid #d0d7de;
+  text-align: center;
+}
+
+.actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.print-btn {
+  background-color: #3b8deb;
+}
+
+.print-btn:disabled {
+  background-color: #1a1b1b;
+  cursor: not-allowed;
+}
+
+.markdown-body {
+  box-sizing: border-box;
+  min-width: 200px;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 45px;
+  background-color: #1a1b1b;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+}
+
+/* 印刷時の設定 */
+@media print {
+  /* 不要な要素を非表示にする*/
+  .no-print {
+    display: none !important;
+  }
+
+  /* ページの余白設定 */
+  @page {
+    margin: 0;
+    size: A4;
+  }
+
+  /* 印刷時もプレビューと同じスタイルを維持 */
+  body {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+  }
+
+  .preview-area {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* プレビューと同じパディングとスタイルを維持 */
+  .markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 0;
+    /* github-markdown-cssのスタイルを維持 */
+    color: #24292f;
+  }
+
+  /* github-markdown-cssのスタイルを印刷時にも適用 */
+  .markdown-body * {
+    color: inherit;
+  }
+
+  /* コードブロックなどの背景色も維持 */
+  .markdown-body pre,
+  .markdown-body code {
+    background-color: #f6f8fa;
+    color: #24292f;
+  }
+
+  /* リンクの色を維持 */
+  .markdown-body a {
+    color: #0969da;
+  }
+}
