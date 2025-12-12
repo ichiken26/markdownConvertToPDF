@@ -22,6 +22,32 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.print-mode-selector {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.print-mode-selector label {
+  color: #ffffff;
+  font-size: 0.9em;
+}
+
+.print-mode-select {
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  border: 1px solid #d0d7de;
+  background-color: #1a1b1b;
+  color: #ffffff;
+  font-size: 0.9em;
+  cursor: pointer;
+}
+
+.print-mode-select:hover {
+  border-color: #3b8deb;
 }
 
 .print-btn {
@@ -57,11 +83,10 @@
     size: A4;
   }
 
-  /* 印刷時もプレビューと同じスタイルを維持 */
+  /* 背景色を正確に印刷するための設定 */
   body {
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
   }
@@ -71,7 +96,6 @@
     max-width: none;
     margin: 0;
     padding: 0;
-    background-color: #ffffff;
   }
 
   .preview-area {
@@ -79,8 +103,45 @@
     padding: 0;
   }
 
-  /* プレビューと同じパディングとスタイルを維持 */
-  .markdown-body {
+  /* 黒背景モード（デフォルト） */
+  body.print-mode-dark,
+  .print-mode-dark .container {
+    background-color: #1a1b1b;
+  }
+
+  .print-mode-dark .markdown-body {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 45px;
+    background-color: #1a1b1b;
+    border: none;
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .print-mode-dark .markdown-body * {
+    color: inherit;
+  }
+
+  .print-mode-dark .markdown-body pre,
+  .print-mode-dark .markdown-body code {
+    background-color: #242424;
+    color: rgba(255, 255, 255, 0.87);
+  }
+
+  .print-mode-dark .markdown-body a {
+    color: #646cff;
+  }
+
+  /* 白背景モード */
+  body.print-mode-light,
+  .print-mode-light .container {
+    background-color: #ffffff;
+  }
+
+  .print-mode-light .markdown-body {
     box-sizing: border-box;
     min-width: 200px;
     max-width: 980px;
@@ -89,24 +150,20 @@
     background-color: #ffffff;
     border: none;
     border-radius: 0;
-    /* github-markdown-cssのスタイルを維持 */
     color: #24292f;
   }
 
-  /* github-markdown-cssのスタイルを印刷時にも適用 */
-  .markdown-body * {
+  .print-mode-light .markdown-body * {
     color: inherit;
   }
 
-  /* コードブロックなどの背景色も維持 */
-  .markdown-body pre,
-  .markdown-body code {
+  .print-mode-light .markdown-body pre,
+  .print-mode-light .markdown-body code {
     background-color: #f6f8fa;
     color: #24292f;
   }
 
-  /* リンクの色を維持 */
-  .markdown-body a {
+  .print-mode-light .markdown-body a {
     color: #0969da;
   }
 }

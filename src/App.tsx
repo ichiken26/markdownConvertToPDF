@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import ReactMarkdown  from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import 'github-markdown-css/github-markdown.css'
@@ -7,12 +7,28 @@ import './App.css'
 
 import { useMarkdownReader } from './hooks/useMarkdownReader';
 
+type PrintMode = 'dark' | 'light';
+
 const App: React.FC = () => {
   // Custom Hook(Vueでいうcomposables)
   const { markdownContent, handleFileUpload } = useMarkdownReader();
 
+  // 印刷モード（デフォルトは黒背景）
+  const [printMode, setPrintMode] = useState<PrintMode>('dark');
+
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const handlePrint = () =>{
+  
+  // 印刷モードに応じてhtmlとbodyにクラスを追加
+  useEffect(() => {
+    document.documentElement.className = `print-mode-${printMode}`;
+    document.body.className = `print-mode-${printMode}`;
+    return () => {
+      document.documentElement.className = '';
+      document.body.className = '';
+    };
+  }, [printMode]);
+
+  const handlePrint = () => {
     window.print();
   }
   
@@ -29,6 +45,18 @@ const App: React.FC = () => {
             ref={fileInputRef} // refをDOM要素に紐づけ
             className="file-input"
           />
+          <div className="print-mode-selector">
+            <label htmlFor="print-mode">印刷モード:</label>
+            <select
+              id="print-mode"
+              value={printMode}
+              onChange={(e) => setPrintMode(e.target.value as PrintMode)}
+              className="print-mode-select"
+            >
+              <option value="dark">黒背景（デフォルト）</option>
+              <option value="light">白背景</option>
+            </select>
+          </div>
           <button 
             onClick={handlePrint}
             disabled={!markdownContent} // フックからもらった変数を使いdisabled
@@ -41,7 +69,7 @@ const App: React.FC = () => {
 
       <main className="preview-area">
         {markdownContent ? (
-          <div className="markdown-body">
+          <div className={`markdown-body print-mode-${printMode}`}>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {markdownContent}
             </ReactMarkdown>
